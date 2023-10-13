@@ -17,8 +17,11 @@ Implemented actions:
 
 ## Usage
 
+<details>
+
+<summary> <code>nearx --help</code> </summary>
+
 ```console
-$ nearx --help
 NEAR TX Swiss Army Knife
 
 Usage: nearx <COMMAND>
@@ -49,6 +52,64 @@ Examples:
 
   # Display a transaction that calls `addGreeting("Hello, World!")` on `greeter.testnet` as `derek.testnet` with `100 TGas` and `5 Ⓝ` deposit.
   $ nearx call "addGreeting" with '["Hello World"]' on "greeter.testnet" as "derek.testnet" with "ed25519:52CwWhWHzgaSZRx..bMFSyXn9hao4YNXuz" gas "100Tgas" deposit "5N" display
+```
+
+</details>
+
+### Examples
+
+#### Immutable call
+
+```console
+$ nearx call "get" with '{"keys":["miraclx.near/**"]}' on "social.near" through "https://rpc.mainnet.near.org"
+{
+  "miraclx.near": {
+    "profile": {
+      "description": "🦀 Tech Nerd.\n\nEx-Engineering @pagodaplatform.near + @near.",
+      "horizon_tnc": "true",
+      "name": "Miraculous"
+    }
+  }
+}
+```
+
+#### Execute a mutable function call
+
+```console
+$ nearx call "rate" with '{"account_id":"a.miraclx.testnet","rating":5}' on "nosedive.testnet" as "miraclx.testnet" with "$KEY" through "https://rpc.testnet.near.org"
+   info │ transaction hash: FvkVeTgRsECmN7JawSqZZz4acSvq5u74DJMAovsExaQE
+   info │       block hash: G5Ty46YCVojRz6wmWXXNXhFdtvrtLnLjo8GZf7yn8CcQ
+   info │   execution cost: 2.4280 TGas
+
+```
+
+#### Prepare and export a signed transaction
+
+```console
+$ nearx call "rate" with '{"account_id":"a.miraclx.testnet","rating":5}' on "nosedive.testnet" as "miraclx.testnet" with "$KEY" display through "https://rpc.testnet.near.org"
+   info │ transaction hash: FNRUdCHhVD5gv5QD3Qr9GKuDio2ebtYYEcDoW4mPycSJ
+DwAAAG1pcmFjbHgudGVzdG5ldACUEocRG+w4BSVfvY29Bd6PtyDhZqsmZiWlkKdzWTWmqyc+HQnCQgAAEAAAAG5vc2VkaXZlLnRlc3RuZXSKW5lagbERyoCbxmf3HbThkMcqxHcb+FCOWynY2XptNAEAAAACBAAAAHJhdGUtAAAAeyJhY2NvdW50X2lkIjoiYS5taXJhY2x4LnRlc3RuZXQiLCJyYXRpbmciOjV9AMBuMdkQAQAAAAAAAAAAAAAAAAAAAAAAAPAnfaaeCrNnMX32mVeizLLsonqQW94lxF+XpzC2dVOLtacqrVabea58agY/O9wranWZqsLoBTNs2QM8oR7h8Q0=
+```
+
+#### Errors
+
+```console
+$ nearx call "rate" with '{"account_id":"a.miraclx.testnet"}' on "nosedive.testnet" as "miraclx.testnet" with "$KEY" through "https://rpc.testnet.near.org"
+   info │ transaction hash: Dr8gnQP4RHKT6zQHW1Mi4YhF2Spy6FkfsbyaVq4wXftS
+   info │       block hash: qmaQShnWzP1WhpD3nkmjtu1SG5pz6x7MAEAgeWGvtPX
+   info │   execution cost: 2.4280 TGas
+  error │ transaction failed: ActionError(
+    ActionError {
+        index: Some(
+            0,
+        ),
+        kind: FunctionCallError(
+            ExecutionError(
+                "Smart contract panicked: panicked at 'Failed to deserialize input from JSON.: Error(\"missing field `rating`\", line: 1, column: 34)', src/lib.rs:83:1",
+            ),
+        ),
+    },
+)
 ```
 
 ## Contribution
