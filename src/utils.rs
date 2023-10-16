@@ -14,14 +14,17 @@ pub mod hex {
 pub fn print_result(result: &[u8]) {
     if let Ok(utf8_result) = std::str::from_utf8(result) {
         if let Ok(json) = utf8_result.parse::<serde_json::Value>() {
-            if let Ok(bytes) = serde_json::from_value::<Vec<u8>>(json.clone()) {
-                warn!("the result is not valid utf-8");
-                println!("{}", hex::encode(&bytes));
-            } else {
-                println!(
-                    "{}",
-                    serde_json::to_string_pretty(&json).expect("json is valid")
-                );
+            match serde_json::from_value::<Vec<u8>>(json.clone()) {
+                Ok(bytes) if !bytes.is_empty() => {
+                    warn!("the result is not valid utf-8");
+                    println!("{}", hex::encode(&bytes));
+                }
+                _ => {
+                    println!(
+                        "{}",
+                        serde_json::to_string_pretty(&json).expect("json is valid")
+                    );
+                }
             }
         } else {
             println!("{}", utf8_result);
