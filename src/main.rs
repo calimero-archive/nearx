@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use borsh::BorshSerialize;
 use clap::Parser;
 use color_eyre::eyre;
@@ -73,7 +75,7 @@ async fn view(
         );
     }
 
-    utils::print_result(&result.result);
+    utils::print_result(Cow::from(result.result));
 
     Ok(())
 }
@@ -190,7 +192,7 @@ async fn transact(
 
     match response.status {
         near_primitives::views::FinalExecutionStatus::SuccessValue(result) => {
-            utils::print_result(&result);
+            utils::print_result(Cow::from(result));
         }
         near_primitives::views::FinalExecutionStatus::Failure(error) => {
             error!("transaction failed: {:#?}", error);
