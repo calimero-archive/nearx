@@ -1,19 +1,23 @@
 use borsh::BorshDeserialize;
 use clap::Parser;
 use color_eyre::eyre;
+use const_format::concatcp;
 
 pub use near_primitives::transaction::SignedTransaction;
 
-#[derive(Debug, Parser)]
-#[clap(after_help = "\x1b[1;4mHint:\x1b[0m\n  \
-    nearx \x1b[1mdissect\x1b[0m [\x1b[1;3mSIGNED_TX\x1b[0m] [--json]\n\
-    \n\
-    \x1b[1;4mExamples:\x1b[0m
+pub const EXAMPLES: &str = "
   # Read from positional argument
   $ nearx dissect \x1b[1;3m\"DAAAAG1pcmFj..RiFN4/m1WxBA==\"\x1b[0m
-  
+
   # Read from stdin
-  $ nearx dissect < \x1b[1;3m\"DAAAAG1pcmFj..RiFN4/m1WxBA==\"\x1b[0m")]
+  $ nearx dissect < \x1b[1;3m\"DAAAAG1pcmFj..RiFN4/m1WxBA==\"\x1b[0m";
+
+#[derive(Debug, Parser)]
+#[clap(after_help = concatcp!("\x1b[1;4mHint:\x1b[0m\n  \
+    nearx \x1b[1mdissect\x1b[0m [\x1b[1;3mSIGNED_TX\x1b[0m] [--json]",
+    super::EXAMPLES_HEADER,
+    EXAMPLES
+))]
 /// Dissasemble a signed transaction
 pub struct DissectCommand {
     /// A base-64 encoded, borsh-compacted, NEAR signed transaction

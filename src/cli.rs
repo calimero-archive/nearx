@@ -13,6 +13,9 @@ use super::macros::error;
 
 pub use call::CallAction;
 
+pub const EXAMPLES_HEADER: &str = "\n
+\x1b[1;4mExamples:\x1b[0m";
+
 #[derive(Debug, Parser)]
 #[clap(author, about, version)]
 #[clap(after_help = concatcp!(
@@ -22,7 +25,12 @@ pub use call::CallAction;
     on \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display]] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
-    call::EXAMPLES
+    EXAMPLES_HEADER,
+    " (\x1b[1mcall\x1b[0m)",
+    call::EXAMPLES,
+    EXAMPLES_HEADER,
+    " (\x1b[1mdissect\x1b[0m)",
+    dissect::EXAMPLES
 ))]
 enum RawCommand {
     Call(call::CallCommand),

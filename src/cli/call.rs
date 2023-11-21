@@ -6,8 +6,7 @@ use near_account_id::AccountId;
 
 use crate::utils;
 
-pub const EXAMPLES: &str = "\n
-\x1b[1;4mExamples:\x1b[0m
+pub const EXAMPLES: &str = "
   # Immutably call `\x1b[1madd(1, 2)\x1b[0m` on `\x1b[1madder.testnet\x1b[0m`
   $ nearx call \x1b[1;3m\"add\"\x1b[0m with \x1b[1;3m\"[1, 2]\"\x1b[0m on \x1b[1;3m\"adder.testnet\"\x1b[0m through \x1b[1;3m\"https://rpc.testnet.near.org\"\x1b[0m
 
@@ -21,8 +20,7 @@ pub const EXAMPLES: &str = "\n
   $ nearx call \x1b[1;3m\"add\"\x1b[0m with \x1b[1;3m\"[1, 2]\"\x1b[0m on \x1b[1;3m\"adder.testnet\"\x1b[0m
 
   # Display a transaction that calls `\x1b[1maddGreeting(\"Hello, World!\")\x1b[0m` on `\x1b[1mgreeter.testnet\x1b[0m` as `\x1b[1mderek.testnet\x1b[0m` with `\x1b[1m100 TGas\x1b[0m` and `\x1b[1m5 Ⓝ\x1b[0m` deposit.
-  $ nearx call \x1b[1;3m\"addGreeting\"\x1b[0m with \x1b[1;3m'[\"Hello World\"]'\x1b[0m on \x1b[1;3m\"greeter.testnet\"\x1b[0m as \x1b[1;3m\"derek.testnet\"\x1b[0m with \x1b[1;3m\"ed25519:52CwWhWHzgaSZRx..bMFSyXn9hao4YNXuz\"\x1b[0m gas \x1b[1;3m\"100Tgas\"\x1b[0m deposit \x1b[1;3m\"5N\"\x1b[0m display
-";
+  $ nearx call \x1b[1;3m\"addGreeting\"\x1b[0m with \x1b[1;3m'[\"Hello World\"]'\x1b[0m on \x1b[1;3m\"greeter.testnet\"\x1b[0m as \x1b[1;3m\"derek.testnet\"\x1b[0m with \x1b[1;3m\"ed25519:52CwWhWHzgaSZRx..bMFSyXn9hao4YNXuz\"\x1b[0m gas \x1b[1;3m\"100Tgas\"\x1b[0m deposit \x1b[1;3m\"5N\"\x1b[0m display";
 
 #[derive(Debug, Parser)]
 #[clap(after_help = concatcp!(
@@ -32,6 +30,7 @@ pub const EXAMPLES: &str = "\n
     on \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display]] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Calls a method on a contract.
@@ -67,6 +66,7 @@ enum CallCommandRest {
     on \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display]] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the JSON arguments to pass to the method.
@@ -104,6 +104,7 @@ enum CallCommandRestWithRest {
     \x1b[1mon \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display]] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the contract to call.
@@ -140,6 +141,7 @@ enum CallCommandRestOnRest {
     on \x1b[3mCONTRACT\x1b[0m \
     \x1b[1mas \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the account to call the contract as. (Makes this a signed TX.)
@@ -172,6 +174,7 @@ enum CallCommandRestOnRestAsRest {
     on \x1b[3mCONTRACT\x1b[0m \
     as \x1b[3mACCOUNT\x1b[0m \x1b[1mwith \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the secret key to use.
@@ -216,6 +219,7 @@ enum CallCommandRestOnRestAsRestWithRest {
     on \x1b[3mCONTRACT\x1b[0m \
     as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m \x1b[1mgas \x1b[3mGAS\x1b[0m [deposit \x1b[3mDEPOSIT\x1b[0m] [display] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the amount of gas to use.
@@ -260,6 +264,7 @@ enum CallCommandRestOnRestAsRestWithRestGasRest {
     on \x1b[3mCONTRACT\x1b[0m \
     as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] \x1b[1mdeposit \x1b[3mDEPOSIT\x1b[0m [display] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the amount of NEAR to deposit.
@@ -300,6 +305,7 @@ enum CallCommandRestOnRestAsRestWithRestGasRestDepositRest {
     on \x1b[3mCONTRACT\x1b[0m \
     as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m \x1b[1mdeposit \x1b[3mDEPOSIT\x1b[0m [gas \x1b[3mGAS\x1b[0m] [display] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the amount of NEAR to deposit.
@@ -342,6 +348,7 @@ enum CallCommandRestOnRestAsRestWithRestDepositRest {
     on \x1b[3mCONTRACT\x1b[0m \
     as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [deposit \x1b[3mDEPOSIT\x1b[0m] \x1b[1mgas \x1b[3mGAS\x1b[0m [display] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the amount of gas to use.
@@ -382,6 +389,7 @@ enum CallCommandRestOnRestAsRestWithRestDepositRestGasRest {
     on \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] \x1b[1mdisplay\x1b[0m] \
     through \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Displays the transaction that would be sent.
@@ -413,6 +421,7 @@ enum CallCommandDisplayRest {
     on \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display]] \
     \x1b[1mthrough \x1b[3mRPC_URL\x1b[0m [with \x1b[3mTOKEN\x1b[0m]",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the RPC URL to connect to.
@@ -448,6 +457,7 @@ enum CallCommandThroughRest {
     on \x1b[3mCONTRACT\x1b[0m \
     [as \x1b[3mACCOUNT\x1b[0m with \x1b[3mSECRET\x1b[0m [gas \x1b[3mGAS\x1b[0m] [deposit \x1b[3mDEPOSIT\x1b[0m] [display]] \
     through \x1b[3mRPC_URL\x1b[0m \x1b[1mwith \x1b[3mTOKEN\x1b[0m",
+    super::EXAMPLES_HEADER,
     EXAMPLES
 ))]
 /// Defines the RPC API key to use.

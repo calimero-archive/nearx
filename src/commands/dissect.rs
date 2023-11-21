@@ -34,11 +34,13 @@ pub async fn read_signed_tx() -> eyre::Result<SignedTransaction> {
             continue;
         }
 
-        let signed_tx = match (|| {
+        let maybe_signed_tx = (|| {
             Ok::<_, eyre::Error>(SignedTransaction::try_from_slice(
                 &near_primitives::serialize::from_base64(line)?,
             )?)
-        })() {
+        })();
+
+        let signed_tx = match maybe_signed_tx {
             Ok(signed_tx) => signed_tx,
             Err(err) => {
                 error!("failed to parse signed transaction: {}", err);
