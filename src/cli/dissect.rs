@@ -10,7 +10,7 @@ pub const EXAMPLES: &str = "
   $ nearx dissect \x1b[1;3m\"DAAAAG1pcmFj..RiFN4/m1WxBA==\"\x1b[0m
 
   # Read from stdin
-  $ nearx dissect < \x1b[1;3m\"DAAAAG1pcmFj..RiFN4/m1WxBA==\"\x1b[0m";
+  $ nearx dissect <<<\x1b[1;3m\"DAAAAG1pcmFj..RiFN4/m1WxBA==\"\x1b[0m";
 
 #[derive(Debug, Parser)]
 #[clap(after_help = concatcp!("\x1b[1;4mHint:\x1b[0m\n  \

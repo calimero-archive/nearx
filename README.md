@@ -27,8 +27,9 @@ NEAR TX Swiss Army Knife
 Usage: nearx <COMMAND>
 
 Commands:
-  call  Calls a method on a contract
-  help  Print this message or the help of the given subcommand(s)
+  call     Calls a method on a contract
+  dissect  Dissasemble a signed transaction
+  help     Print this message or the help of the given subcommand(s)
 
 Options:
   -h, --help     Print help
@@ -37,7 +38,7 @@ Options:
 Hint:
   nearx call METHOD [with '{}'] on CONTRACT [as ACCOUNT with SECRET [gas GAS] [deposit DEPOSIT] [display]] through RPC_URL [with TOKEN]
 
-Examples:
+Examples: (call)
   # Immutably call `add(1, 2)` on `adder.testnet`
   $ nearx call "add" with "[1, 2]" on "adder.testnet" through "https://rpc.testnet.near.org"
 
@@ -52,6 +53,13 @@ Examples:
 
   # Display a transaction that calls `addGreeting("Hello, World!")` on `greeter.testnet` as `derek.testnet` with `100 TGas` and `5 Ⓝ` deposit.
   $ nearx call "addGreeting" with '["Hello World"]' on "greeter.testnet" as "derek.testnet" with "ed25519:52CwWhWHzgaSZRx..bMFSyXn9hao4YNXuz" gas "100Tgas" deposit "5N" display
+
+Examples: (dissect)
+  # Read from positional argument
+  $ nearx dissect "DAAAAG1pcmFj..RiFN4/m1WxBA=="
+
+  # Read from stdin
+  $ nearx dissect <<<"DAAAAG1pcmFj..RiFN4/m1WxBA=="
 ```
 
 </details>
@@ -89,6 +97,38 @@ $ nearx call "rate" with '{"account_id":"a.miraclx.testnet","rating":5}' on "nos
 $ nearx call "rate" with '{"account_id":"a.miraclx.testnet","rating":5}' on "nosedive.testnet" as "miraclx.testnet" with "$KEY" display through "https://rpc.testnet.near.org"
    info │ transaction hash: FNRUdCHhVD5gv5QD3Qr9GKuDio2ebtYYEcDoW4mPycSJ
 DwAAAG1pcmFjbHgudGVzdG5ldACUEocRG+w4BSVfvY29Bd6PtyDhZqsmZiWlkKdzWTWmqyc+HQnCQgAAEAAAAG5vc2VkaXZlLnRlc3RuZXSKW5lagbERyoCbxmf3HbThkMcqxHcb+FCOWynY2XptNAEAAAACBAAAAHJhdGUtAAAAeyJhY2NvdW50X2lkIjoiYS5taXJhY2x4LnRlc3RuZXQiLCJyYXRpbmciOjV9AMBuMdkQAQAAAAAAAAAAAAAAAAAAAAAAAPAnfaaeCrNnMX32mVeizLLsonqQW94lxF+XpzC2dVOLtacqrVabea58agY/O9wranWZqsLoBTNs2QM8oR7h8Q0=
+```
+
+#### Disassemble a signed transaction
+
+```console
+$ nearx dissect <<<'DwAAAG1pcmFjbHgudGVzdG5ldACUEocRG+w4BSVfvY29Bd6PtyDhZqsmZiWlkKdzWTWmqyc+HQnCQgAAEAAAAG5vc2VkaXZlLnRlc3RuZXSKW5lagbERyoCbxmf3HbThkMcqxHcb+FCOWynY2XptNAEAAAACBAAAAHJhdGUtAAAAeyJhY2NvdW50X2lkIjoiYS5taXJhY2x4LnRlc3RuZXQiLCJyYXRpbmciOjV9AMBuMdkQAQAAAAAAAAAAAAAAAAAAAAAAAPAnfaaeCrNnMX32mVeizLLsonqQW94lxF+XpzC2dVOLtacqrVabea58agY/O9wranWZqsLoBTNs2QM8oR7h8Q0='
+SignedTransaction {
+    transaction: Transaction {
+        signer_id: AccountId(
+            "miraclx.testnet",
+        ),
+        public_key: ed25519:Ay1j4VbXxyr3bKyvz58qgDpq3XGmNoJM3Cd9EA21FT2z,
+        nonce: 73401144000039,
+        receiver_id: AccountId(
+            "nosedive.testnet",
+        ),
+        block_hash: AK6GqBeHtBRhL4MeYtGpSMpJMNiHs91532k5vpeUPU9R,
+        actions: [
+            FunctionCall(
+                FunctionCallAction {
+                    method_name: rate,
+                    args: '{"account_id":"a.miraclx.testnet","rating":5}',
+                    gas: 300000000000000,
+                    deposit: 0,
+                },
+            ),
+        ],
+    },
+    signature: ed25519:5oV65LDr1svMkCnjJWXf7cRRnpQorRJNkZDji9CtqPDDFzjJwtraPH5C5y2itqaP9Q7c7eVnbDYLQTwKppWdDssr,
+    hash: FNRUdCHhVD5gv5QD3Qr9GKuDio2ebtYYEcDoW4mPycSJ,
+    size: 198,
+}
 ```
 
 #### Errors
