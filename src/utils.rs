@@ -1,6 +1,6 @@
 use std::borrow::Cow;
 
-use crate::warn;
+use crate::macros::warn;
 
 pub const TGAS: near_primitives::types::Gas = 1000000000000;
 pub const NEAR: near_primitives::types::Balance = 1000000000000000000000000;

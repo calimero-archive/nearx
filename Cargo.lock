@@ -1581,6 +1581,7 @@ dependencies = [
  "near-primitives",
  "serde_json",
  "tokio",
+ "tokio-stream",
 ]
 
 [[package]]
