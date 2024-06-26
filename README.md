@@ -21,6 +21,13 @@ Implemented actions:
 
 <summary> <code>nearx --help</code> </summary>
 
+<details>
+<summary> Screenshot </summary>
+
+![Screenshot of how it actually looks in a terminal](docs/screenshot.jpg)
+
+</details>
+
 ```console
 NEAR TX Swiss Army Knife
 
